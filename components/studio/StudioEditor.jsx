@@ -9,6 +9,7 @@ import { SHADE_COUNTS } from "@/lib/constants";
 import { canRedo, canUndo, initStudio, studioReducer } from "@/lib/studio-reducer";
 import { loadPrefs, usePreferences } from "@/components/usePreferences";
 import SwatchStrip from "@/components/SwatchStrip";
+import HarmonyPanel from "./HarmonyPanel";
 import ScalePanel from "./ScalePanel";
 import ContrastPanel from "./ContrastPanel";
 import PreviewPanel from "./PreviewPanel";
@@ -173,6 +174,8 @@ export default function StudioEditor({ initial, signedIn }) {
 
           <SwatchStrip colors={colors} tall />
         </section>
+
+        <HarmonyPanel base={base} />
 
         <ScalePanel colors={colors} />
 

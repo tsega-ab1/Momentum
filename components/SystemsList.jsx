@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { deleteSystemAction } from "@/app/actions";
 import SystemCard from "@/components/SystemCard";
 import FavoriteButton from "@/components/FavoriteButton";
+import ColorWorkspace from "@/components/systems/ColorWorkspace";
 
 function DeleteControl({ system }) {
   const [confirming, setConfirming] = useState(false);
@@ -41,6 +42,7 @@ export default function SystemsList({ mine, favorites }) {
 
   return (
     <>
+      <ColorWorkspace />
       <div className="toolbar">
         <div className="segmented" role="group" aria-label="Show">
           <button type="button" className="seg" aria-pressed={tab === "mine"} onClick={() => setTab("mine")}>
@@ -88,9 +90,11 @@ export default function SystemsList({ mine, favorites }) {
                 actions={
                   tab === "mine" ? (
                     <>
-                      <Link className="btn" href={`/studio/${system.id}`}>
-                        Edit
-                      </Link>
+                      {!system.isPalette && (
+                        <Link className="btn" href={`/studio/${system.id}`}>
+                          Edit
+                        </Link>
+                      )}
                       <DeleteControl system={system} />
                     </>
                   ) : (

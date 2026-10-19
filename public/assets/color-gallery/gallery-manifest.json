@@ -1,0 +1,128 @@
+[
+  {
+    "id": "01-expressive-blue-yellow",
+    "title": "Expressive Blue & Yellow",
+    "category": "abstract-art",
+    "src": "/assets/color-gallery/abstract-art/01-expressive-blue-yellow.jpg",
+    "width": 736,
+    "height": 736,
+    "alt": "Expressive Blue & Yellow image for color inspiration and palette sampling"
+  },
+  {
+    "id": "02-terracotta-paint-texture",
+    "title": "Terracotta Paint Texture",
+    "category": "paint-textures",
+    "src": "/assets/color-gallery/paint-textures/02-terracotta-paint-texture.jpg",
+    "width": 736,
+    "height": 1308,
+    "alt": "Terracotta Paint Texture image for color inspiration and palette sampling"
+  },
+  {
+    "id": "03-dark-ochre-brushstrokes",
+    "title": "Dark Ochre Brushstrokes",
+    "category": "paint-textures",
+    "src": "/assets/color-gallery/paint-textures/03-dark-ochre-brushstrokes.jpg",
+    "width": 736,
+    "height": 1308,
+    "alt": "Dark Ochre Brushstrokes image for color inspiration and palette sampling"
+  },
+  {
+    "id": "04-colorful-gestural-strokes",
+    "title": "Colorful Gestural Strokes",
+    "category": "abstract-art",
+    "src": "/assets/color-gallery/abstract-art/04-colorful-gestural-strokes.jpg",
+    "width": 736,
+    "height": 1104,
+    "alt": "Colorful Gestural Strokes image for color inspiration and palette sampling"
+  },
+  {
+    "id": "05-vibrant-layered-canvas",
+    "title": "Vibrant Layered Canvas",
+    "category": "abstract-art",
+    "src": "/assets/color-gallery/abstract-art/05-vibrant-layered-canvas.jpg",
+    "width": 439,
+    "height": 836,
+    "alt": "Vibrant Layered Canvas image for color inspiration and palette sampling"
+  },
+  {
+    "id": "06-pastel-and-coral-sweep",
+    "title": "Pastel & Coral Sweep",
+    "category": "abstract-art",
+    "src": "/assets/color-gallery/abstract-art/06-pastel-and-coral-sweep.jpg",
+    "width": 736,
+    "height": 1308,
+    "alt": "Pastel & Coral Sweep image for color inspiration and palette sampling"
+  },
+  {
+    "id": "07-warm-earth-tone-swatches",
+    "title": "Warm Earth-Tone Swatches",
+    "category": "color-palettes",
+    "src": "/assets/color-gallery/color-palettes/07-warm-earth-tone-swatches.jpg",
+    "width": 736,
+    "height": 1104,
+    "alt": "Warm Earth-Tone Swatches image for color inspiration and palette sampling"
+  },
+  {
+    "id": "08-soft-neutral-paint-texture",
+    "title": "Soft Neutral Paint Texture",
+    "category": "paint-textures",
+    "src": "/assets/color-gallery/paint-textures/08-soft-neutral-paint-texture.jpg",
+    "width": 736,
+    "height": 981,
+    "alt": "Soft Neutral Paint Texture image for color inspiration and palette sampling"
+  },
+  {
+    "id": "09-swirled-sage-and-neutral-paint",
+    "title": "Swirled Sage & Neutral Paint",
+    "category": "paint-textures",
+    "src": "/assets/color-gallery/paint-textures/09-swirled-sage-and-neutral-paint.jpg",
+    "width": 736,
+    "height": 981,
+    "alt": "Swirled Sage & Neutral Paint image for color inspiration and palette sampling"
+  },
+  {
+    "id": "10-sculptural-neutral-materials",
+    "title": "Sculptural Neutral Materials",
+    "category": "material-studies",
+    "src": "/assets/color-gallery/material-studies/10-sculptural-neutral-materials.jpg",
+    "width": 736,
+    "height": 1104,
+    "alt": "Sculptural Neutral Materials image for color inspiration and palette sampling"
+  },
+  {
+    "id": "11-color-wheel-reference",
+    "title": "Color Wheel Reference",
+    "category": "color-palettes",
+    "src": "/assets/color-gallery/color-palettes/11-color-wheel-reference.jpg",
+    "width": 736,
+    "height": 981,
+    "alt": "Color Wheel Reference image for color inspiration and palette sampling"
+  },
+  {
+    "id": "12-paint-color-samples",
+    "title": "Paint Color Samples",
+    "category": "color-palettes",
+    "src": "/assets/color-gallery/color-palettes/12-paint-color-samples.jpg",
+    "width": 720,
+    "height": 960,
+    "alt": "Paint Color Samples image for color inspiration and palette sampling"
+  },
+  {
+    "id": "13-muted-earthy-color-swatches",
+    "title": "Muted Earthy Color Swatches",
+    "category": "color-palettes",
+    "src": "/assets/color-gallery/color-palettes/13-muted-earthy-color-swatches.jpg",
+    "width": 736,
+    "height": 1104,
+    "alt": "Muted Earthy Color Swatches image for color inspiration and palette sampling"
+  },
+  {
+    "id": "14-bold-color-material-collage",
+    "title": "Bold Color Material Collage",
+    "category": "material-studies",
+    "src": "/assets/color-gallery/material-studies/14-bold-color-material-collage.jpg",
+    "width": 736,
+    "height": 1288,
+    "alt": "Bold Color Material Collage image for color inspiration and palette sampling"
+  }
+]

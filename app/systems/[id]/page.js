@@ -6,6 +6,7 @@ import ExportBlock from "@/components/ExportBlock";
 import FavoriteButton from "@/components/FavoriteButton";
 import CopyButton from "@/components/CopyButton";
 import { getPublicIdsCached, getPublicSystemCached } from "@/lib/cached";
+import { getSystem } from "@/lib/systems";
 import { getCurrentUser } from "@/lib/session";
 import { shadeNumbers, toHslString, toOklchString, toRgbString } from "@/lib/color";
 
@@ -17,56 +18,94 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
-  const system = await getPublicSystemCached(id);
+  const publicSystem = await getPublicSystemCached(id);
+  let system = publicSystem;
+
+  // Private palette collections are visible only to their owner.
+  if (!system) {
+    const user = await getCurrentUser();
+    const candidate = getSystem(id);
+    if (candidate?.isPalette && candidate.ownerId === user?.id) {
+      system = candidate;
+    }
+  }
+
   if (!system) return { title: "System not found" };
-  const description = `A ${system.count}-shade color system based on ${system.base}, by ${system.ownerName}. Copy it or export it as CSS, Tailwind, SCSS or JSON.`;
+
+  const description = system.isPalette
+    ? `A saved ${system.count}-color collection based on ${system.base}. View and export the exact colors.`
+    : `A ${system.count}-shade color system based on ${system.base}, by ${system.ownerName}. Copy it or export it as CSS, Tailwind, SCSS or JSON.`;
+  const title = `${system.name} ${system.isPalette ? "color collection" : "color system"}`;
+
   return {
-    title: `${system.name} color system`,
+    title,
     description,
-    openGraph: { title: `${system.name} color system`, description, type: "website" },
+    openGraph: { title, description, type: "website" },
     twitter: { card: "summary_large_image" },
   };
 }
 
 export default async function SystemPage({ params }) {
   const { id } = await params;
-  const system = await getPublicSystemCached(id);
-  if (!system) notFound(); // private systems also land here: public pages never reveal them
+  const publicSystem = await getPublicSystemCached(id);
+  let system = publicSystem;
 
-  const steps = shadeNumbers(system.colors.length);
+  // Allow the owner to view their private saved palette, but not private systems
+  // belonging to other users.
+  if (!system) {
+    const user = await getCurrentUser();
+    const candidate = getSystem(id);
+    if (candidate?.isPalette && candidate.ownerId === user?.id) {
+      system = candidate;
+    }
+  }
+
+  if (!system) notFound();
+
+  const steps = system.isPalette ? [] : shadeNumbers(system.colors.length);
   const remix = `/studio?base=${encodeURIComponent(system.base)}&count=${system.count}&name=${encodeURIComponent(`${system.name} remix`)}`;
 
   return (
     <article>
       <p className="muted small">
-        <Link href="/explore">← Explore</Link>
+        <Link href={system.isPalette ? "/systems" : "/explore"}>{system.isPalette ? "← My Systems" : "← Explore"}</Link>
       </p>
       <h1 className="page-title">{system.name}</h1>
       <p className="muted">
-        By {system.ownerName} · base <code>{system.base}</code> · {system.count} shades
+        {system.isPalette ? (
+          <>Saved color collection · base <code>{system.base}</code> · {system.count} colors</>
+        ) : (
+          <>By {system.ownerName} · base <code>{system.base}</code> · {system.count} shades</>
+        )}
       </p>
 
-      <SwatchStrip colors={system.colors} label={`${system.name} color scale`} tall />
+      <SwatchStrip
+        colors={system.colors}
+        label={`${system.name} ${system.isPalette ? "color collection" : "color scale"}`}
+        tall
+      />
 
       <div className="actions">
         <Suspense fallback={<span className="muted small">…</span>}>
           <SystemActions system={system} />
         </Suspense>
-        <Link className="btn" href={remix}>
-          Remix in Studio
-        </Link>
+        {!system.isPalette && (
+          <Link className="btn" href={remix}>
+            Remix in Studio
+          </Link>
+        )}
       </div>
 
       <section className="card" aria-labelledby="shades-title">
         <h2 id="shades-title" className="card-title">
-          Shades
+          {system.isPalette ? "Colors" : "Shades"}
         </h2>
         <div className="table-wrap">
           <table>
-            <caption className="sr-only">Every shade in {system.name}</caption>
+            <caption className="sr-only">Every {system.isPalette ? "color" : "shade"} in {system.name}</caption>
             <thead>
               <tr>
-                <th scope="col">Shade</th>
+                <th scope="col">{system.isPalette ? "Color" : "Shade"}</th>
                 <th scope="col">Hex</th>
                 <th scope="col">RGB</th>
                 <th scope="col">HSL</th>
@@ -80,7 +119,7 @@ export default async function SystemPage({ params }) {
               {system.colors.map((color, i) => (
                 <tr key={i}>
                   <th scope="row">
-                    <span className="dot" style={{ background: color }} aria-hidden="true" /> {steps[i]}
+                    <span className="dot" style={{ background: color }} aria-hidden="true" /> {system.isPalette ? `Color ${i + 1}` : steps[i]}
                   </th>
                   <td>
                     <code>{color}</code>
@@ -104,7 +143,7 @@ export default async function SystemPage({ params }) {
         </h2>
         <ExportBlock
           system={{ name: system.name, colors: system.colors }}
-          downloadBase={`/api/systems/${system.id}/export`}
+          downloadBase={system.isPublic ? `/api/systems/${system.id}/export` : null}
         />
       </section>
     </article>
@@ -117,8 +156,10 @@ async function SystemActions({ system }) {
   const user = await getCurrentUser();
   return (
     <>
-      <FavoriteButton systemId={system.id} name={system.name} count={system.favorites} />
-      {user?.id === system.ownerId && (
+      {system.isPublic && (
+        <FavoriteButton systemId={system.id} name={system.name} count={system.favorites} />
+      )}
+      {user?.id === system.ownerId && !system.isPalette && (
         <Link className="btn" href={`/studio/${system.id}`}>
           Edit in Studio
         </Link>

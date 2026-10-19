@@ -5,7 +5,7 @@ import { updateTag } from "next/cache";
 import { hashPassword, verifyPassword } from "@/lib/crypto";
 import { createSession, destroySession, getCurrentUser } from "@/lib/session";
 import { createUser, findUserByEmail } from "@/lib/users";
-import { createSystem, updateSystem, deleteSystem } from "@/lib/systems";
+import { createSystem, createPaletteSystem, updateSystem, deleteSystem } from "@/lib/systems";
 import { parseSystemForm, parseWith, signInSchema, signUpSchema } from "@/lib/validation";
 import { safeNext } from "@/lib/safe-next";
 
@@ -84,4 +84,21 @@ export async function deleteSystemAction(formData) {
   const result = deleteSystem(user.id, String(formData.get("id") ?? ""));
   if (result.ok) updateTag("systems");
   redirect("/systems");
+}
+
+
+export async function saveColorPaletteAction({ name, colors }) {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "Sign in to save palettes to My Systems." };
+
+  try {
+    const system = createPaletteSystem(user.id, { name, colors });
+    updateTag("systems");
+    return { ok: true, id: system.id, name: system.name };
+  } catch (error) {
+    return {
+      ok: false,
+      error: error instanceof Error ? error.message : "Could not save this palette.",
+    };
+  }
 }

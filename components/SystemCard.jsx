@@ -3,7 +3,9 @@ import SwatchStrip from "./SwatchStrip";
 
 // `actions` is a slot, so the same card serves Explore (favorite button) and My systems (edit/delete).
 export default function SystemCard({ system, actions, showVisibility = false }) {
-  const href = system.isPublic ? `/systems/${system.id}` : `/studio/${system.id}`;
+  const href = system.isPalette || system.isPublic
+    ? `/systems/${system.id}`
+    : `/studio/${system.id}`;
   return (
     <article className="card system-card">
       <SwatchStrip colors={system.colors} label={`${system.name} color scale`} />
