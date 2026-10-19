@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import useSWR, { useSWRConfig } from "swr";
 import { fetcher } from "@/lib/fetcher";
@@ -12,11 +12,12 @@ export default function FavoriteButton({ systemId, name, count: initialCount, on
   const pathname = usePathname();
   const { mutate: mutateGlobal } = useSWRConfig();
   const { data, mutate } = useSWR("/api/favorites", fetcher);
-  const [count, setCount] = useState(initialCount);
+  // The count from the server after a toggle, tagged with the prop it was based on.
+  // If the parent passes a new count, that wins, so no effect is needed to sync it.
+  const [update, setUpdate] = useState(null);
+  const count = update && update.base === initialCount ? update.value : initialCount;
   const [pending, setPending] = useState(false);
   const [message, setMessage] = useState("");
-
-  useEffect(() => setCount(initialCount), [initialCount]);
 
   const favorited = Boolean(data?.ids.includes(systemId));
 
@@ -39,7 +40,7 @@ export default function FavoriteButton({ systemId, name, count: initialCount, on
       }
       if (!res.ok) throw new Error("Could not update favorite");
       const result = await res.json();
-      setCount(result.count);
+      setUpdate({ base: initialCount, value: result.count });
       setMessage(result.favorited ? `Added ${name} to favorites` : `Removed ${name} from favorites`);
       // Update the shared favorites entry, then refresh any cached system lists.
       await mutate(

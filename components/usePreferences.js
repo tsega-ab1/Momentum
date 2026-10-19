@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import { DEFAULT_PREFS, sanitizePrefs } from "@/lib/prefs";
 
 const KEY = "momentum-prefs";
@@ -21,23 +21,52 @@ function savePrefs(prefs) {
   }
 }
 
+// A tiny external store. `current` is the in-memory copy, so a preference still applies
+// for this visit even when storage is blocked, and the snapshot stays referentially stable.
+let current;
+const listeners = new Set();
+
+function getSnapshot() {
+  if (current === undefined) current = loadPrefs();
+  return current;
+}
+
+const getServerSnapshot = () => DEFAULT_PREFS;
+
+function emit() {
+  listeners.forEach((l) => l());
+}
+
+function subscribe(listener) {
+  listeners.add(listener);
+  // Pick up changes made in another tab.
+  const onStorage = (e) => {
+    if (e.key === KEY || e.key === null) {
+      current = loadPrefs();
+      emit();
+    }
+  };
+  window.addEventListener("storage", onStorage);
+  return () => {
+    listeners.delete(listener);
+    window.removeEventListener("storage", onStorage);
+  };
+}
+
+function update(patch) {
+  const next = sanitizePrefs({ ...getSnapshot(), ...patch });
+  current = next;
+  savePrefs(next);
+  emit();
+}
+
 export function usePreferences() {
-  const [prefs, setPrefs] = useState(DEFAULT_PREFS);
-  const [ready, setReady] = useState(false);
-
-  useEffect(() => {
-    setPrefs(loadPrefs());
-    setReady(true);
-  }, []);
-
-  const update = useCallback(
-    (patch) => {
-      const next = sanitizePrefs({ ...prefs, ...patch });
-      setPrefs(next);
-      savePrefs(next);
-    },
-    [prefs]
+  const prefs = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  // false on the server and during hydration, true once the client has taken over.
+  const ready = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
   );
-
   return { prefs, update, ready };
 }

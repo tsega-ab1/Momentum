@@ -7,7 +7,7 @@ import { saveSystem } from "@/app/actions";
 import { isValidHex, makeShades, normalizeHex, randomColor } from "@/lib/color";
 import { SHADE_COUNTS } from "@/lib/constants";
 import { canRedo, canUndo, initStudio, studioReducer } from "@/lib/studio-reducer";
-import { loadPrefs } from "@/components/usePreferences";
+import { loadPrefs, usePreferences } from "@/components/usePreferences";
 import SwatchStrip from "@/components/SwatchStrip";
 import ScalePanel from "./ScalePanel";
 import ContrastPanel from "./ContrastPanel";
@@ -33,9 +33,18 @@ export default function StudioEditor({ initial, signedIn }) {
   const [form, formAction] = useActionState(saveSystem, { errors: {} });
   const dialogRef = useRef(null);
   const [exportOpen, setExportOpen] = useState(false);
-  const [exportFormat, setExportFormat] = useState("css");
+  const { prefs: savedPrefs } = usePreferences();
+  const exportFormat = isEdit ? "css" : savedPrefs.format;
 
   const { base, count, isPublic } = state.present;
+
+  // Keep the hex box in step with undo/redo, without fighting the person while they type.
+  // Adjusting state during render (only when base changes) replaces the old effect.
+  const [prevBase, setPrevBase] = useState(base);
+  if (base !== prevBase) {
+    setPrevBase(base);
+    if (normalizeHex(hexText) !== base) setHexText(base);
+  }
   const colors = useMemo(() => makeShades(base, count), [base, count]);
   const errors = form.errors ?? {};
   const nextPath = isEdit ? `/studio/${initial.id}` : "/studio";
@@ -44,13 +53,11 @@ export default function StudioEditor({ initial, signedIn }) {
   useEffect(() => {
     if (isEdit) return;
     const prefs = loadPrefs();
-    setExportFormat(prefs.format);
     try {
       const draft = JSON.parse(sessionStorage.getItem(DRAFT_KEY) ?? "null");
       if (draft && isValidHex(draft.base)) {
         sessionStorage.removeItem(DRAFT_KEY);
         dispatch({ type: "reset", value: draft });
-        setHexText(normalizeHex(draft.base));
         return;
       }
     } catch {
@@ -62,12 +69,6 @@ export default function StudioEditor({ initial, signedIn }) {
     // Runs once on mount, on purpose.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // Keep the hex box in step with undo/redo, without fighting the person while they type.
-  useEffect(() => {
-    if (normalizeHex(hexText) !== base) setHexText(base);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [base]);
 
   function setBase(value) {
     dispatch({ type: "set_base", value, at: Date.now() });
