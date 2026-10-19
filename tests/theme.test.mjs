@@ -29,6 +29,9 @@ const TEXT_PAIRS = [
   ["--muted", "--surface"],
   ["--muted", "--surface2"],
   ["--accent-ink", "--accent"],
+  ["--danger", "--bg"],
+  ["--danger", "--surface"],
+  ["--danger", "--surface2"],
 ];
 
 for (const [name, t] of Object.entries(themes)) {

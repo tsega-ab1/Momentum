@@ -1,0 +1,317 @@
+{
+  "users": [
+    {
+      "id": "u_momentum",
+      "name": "Momentum",
+      "email": "hello@momentum.local",
+      "passwordHash": null,
+      "createdAt": "2026-09-01T00:00:00.000Z"
+    }
+  ],
+  "systems": [
+    {
+      "id": "lime-fresh-0001",
+      "ownerId": "u_momentum",
+      "name": "Lime Fresh",
+      "base": "#c9f27a",
+      "count": 11,
+      "colors": [
+        "#ffffff",
+        "#f5fde7",
+        "#ecfacf",
+        "#e2f8b7",
+        "#d8f69f",
+        "#c9f27a",
+        "#abcd69",
+        "#8ca857",
+        "#6e8346",
+        "#505e35",
+        "#313823"
+      ],
+      "isPublic": true,
+      "createdAt": "2026-09-01T09:00:00.000Z",
+      "updatedAt": "2026-09-01T09:00:00.000Z"
+    },
+    {
+      "id": "ocean-depth-0002",
+      "ownerId": "u_momentum",
+      "name": "Ocean Depth",
+      "base": "#2563eb",
+      "count": 11,
+      "colors": [
+        "#ffffff",
+        "#d8e3fb",
+        "#b1c7f8",
+        "#89abf4",
+        "#628ff1",
+        "#2563eb",
+        "#2255c7",
+        "#1e48a3",
+        "#1b3a7f",
+        "#182d5b",
+        "#151f37"
+      ],
+      "isPublic": true,
+      "createdAt": "2026-09-02T09:00:00.000Z",
+      "updatedAt": "2026-09-02T09:00:00.000Z"
+    },
+    {
+      "id": "sunset-orange-0003",
+      "ownerId": "u_momentum",
+      "name": "Sunset Orange",
+      "base": "#f97316",
+      "count": 9,
+      "colors": [
+        "#ffffff",
+        "#fee0cb",
+        "#fcc096",
+        "#fba162",
+        "#f97316",
+        "#c95f15",
+        "#994b14",
+        "#693613",
+        "#3a2212"
+      ],
+      "isPublic": true,
+      "createdAt": "2026-09-03T09:00:00.000Z",
+      "updatedAt": "2026-09-03T09:00:00.000Z"
+    },
+    {
+      "id": "forest-floor-0004",
+      "ownerId": "u_momentum",
+      "name": "Forest Floor",
+      "base": "#166534",
+      "count": 11,
+      "colors": [
+        "#ffffff",
+        "#d5e3da",
+        "#abc8b6",
+        "#81ac91",
+        "#57906d",
+        "#166534",
+        "#15572e",
+        "#144928",
+        "#143b23",
+        "#132e1d",
+        "#122017"
+      ],
+      "isPublic": true,
+      "createdAt": "2026-09-04T09:00:00.000Z",
+      "updatedAt": "2026-09-04T09:00:00.000Z"
+    },
+    {
+      "id": "berry-smoothie-0005",
+      "ownerId": "u_momentum",
+      "name": "Berry Smoothie",
+      "base": "#be185d",
+      "count": 9,
+      "colors": [
+        "#ffffff",
+        "#f0cbdb",
+        "#e297b6",
+        "#d36392",
+        "#be185d",
+        "#9a174d",
+        "#77153e",
+        "#53142e",
+        "#2f121e"
+      ],
+      "isPublic": true,
+      "createdAt": "2026-09-05T09:00:00.000Z",
+      "updatedAt": "2026-09-05T09:00:00.000Z"
+    },
+    {
+      "id": "slate-studio-0006",
+      "ownerId": "u_momentum",
+      "name": "Slate Studio",
+      "base": "#475569",
+      "count": 11,
+      "colors": [
+        "#ffffff",
+        "#dee0e4",
+        "#bdc2c9",
+        "#9ca3ae",
+        "#7b8593",
+        "#475569",
+        "#3e4a5a",
+        "#353f4c",
+        "#2c333d",
+        "#23282f",
+        "#1a1d20"
+      ],
+      "isPublic": true,
+      "createdAt": "2026-09-06T09:00:00.000Z",
+      "updatedAt": "2026-09-06T09:00:00.000Z"
+    },
+    {
+      "id": "violet-hour-0007",
+      "ownerId": "u_momentum",
+      "name": "Violet Hour",
+      "base": "#7c3aed",
+      "count": 11,
+      "colors": [
+        "#ffffff",
+        "#e7dcfc",
+        "#d0b8f9",
+        "#b895f5",
+        "#a171f2",
+        "#7c3aed",
+        "#6a33c9",
+        "#592ca4",
+        "#472680",
+        "#351f5c",
+        "#241838"
+      ],
+      "isPublic": true,
+      "createdAt": "2026-09-07T09:00:00.000Z",
+      "updatedAt": "2026-09-07T09:00:00.000Z"
+    },
+    {
+      "id": "teal-lagoon-0008",
+      "ownerId": "u_momentum",
+      "name": "Teal Lagoon",
+      "base": "#0d9488",
+      "count": 7,
+      "colors": [
+        "#ffffff",
+        "#b6dfdb",
+        "#6ebfb8",
+        "#0d9488",
+        "#0e7067",
+        "#0f4c47",
+        "#102826"
+      ],
+      "isPublic": true,
+      "createdAt": "2026-09-08T09:00:00.000Z",
+      "updatedAt": "2026-09-08T09:00:00.000Z"
+    },
+    {
+      "id": "golden-amber-0009",
+      "ownerId": "u_momentum",
+      "name": "Golden Amber",
+      "base": "#f59e0b",
+      "count": 9,
+      "colors": [
+        "#ffffff",
+        "#fde9c8",
+        "#fbd391",
+        "#f8be5a",
+        "#f59e0b",
+        "#c6810c",
+        "#97640d",
+        "#68470f",
+        "#392a10"
+      ],
+      "isPublic": true,
+      "createdAt": "2026-09-09T09:00:00.000Z",
+      "updatedAt": "2026-09-09T09:00:00.000Z"
+    },
+    {
+      "id": "rose-quartz-000a",
+      "ownerId": "u_momentum",
+      "name": "Rose Quartz",
+      "base": "#e11d48",
+      "count": 5,
+      "colors": [
+        "#ffffff",
+        "#f299ad",
+        "#e11d48",
+        "#8b1831",
+        "#35131b"
+      ],
+      "isPublic": true,
+      "createdAt": "2026-09-10T09:00:00.000Z",
+      "updatedAt": "2026-09-10T09:00:00.000Z"
+    }
+  ],
+  "favorites": [
+    {
+      "userId": "u_fan1",
+      "systemId": "lime-fresh-0001"
+    },
+    {
+      "userId": "u_fan2",
+      "systemId": "lime-fresh-0001"
+    },
+    {
+      "userId": "u_fan3",
+      "systemId": "lime-fresh-0001"
+    },
+    {
+      "userId": "u_fan1",
+      "systemId": "ocean-depth-0002"
+    },
+    {
+      "userId": "u_fan2",
+      "systemId": "ocean-depth-0002"
+    },
+    {
+      "userId": "u_fan3",
+      "systemId": "ocean-depth-0002"
+    },
+    {
+      "userId": "u_fan4",
+      "systemId": "ocean-depth-0002"
+    },
+    {
+      "userId": "u_fan5",
+      "systemId": "ocean-depth-0002"
+    },
+    {
+      "userId": "u_fan1",
+      "systemId": "sunset-orange-0003"
+    },
+    {
+      "userId": "u_fan2",
+      "systemId": "sunset-orange-0003"
+    },
+    {
+      "userId": "u_fan1",
+      "systemId": "forest-floor-0004"
+    },
+    {
+      "userId": "u_fan2",
+      "systemId": "forest-floor-0004"
+    },
+    {
+      "userId": "u_fan3",
+      "systemId": "forest-floor-0004"
+    },
+    {
+      "userId": "u_fan4",
+      "systemId": "forest-floor-0004"
+    },
+    {
+      "userId": "u_fan1",
+      "systemId": "berry-smoothie-0005"
+    },
+    {
+      "userId": "u_fan1",
+      "systemId": "slate-studio-0006"
+    },
+    {
+      "userId": "u_fan2",
+      "systemId": "slate-studio-0006"
+    },
+    {
+      "userId": "u_fan1",
+      "systemId": "violet-hour-0007"
+    },
+    {
+      "userId": "u_fan2",
+      "systemId": "violet-hour-0007"
+    },
+    {
+      "userId": "u_fan3",
+      "systemId": "violet-hour-0007"
+    },
+    {
+      "userId": "u_fan1",
+      "systemId": "teal-lagoon-0008"
+    },
+    {
+      "userId": "u_fan1",
+      "systemId": "rose-quartz-000a"
+    }
+  ]
+}

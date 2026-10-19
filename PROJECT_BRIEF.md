@@ -55,7 +55,7 @@ Storage starts as a server-side JSON file behind one `lib/db.js` interface, so a
 | `/api/systems` | Route Handler | Search and pagination for the client |
 | `/api/systems/[id]/export` | Route Handler | Returns the file for a chosen format |
 | Save, delete | Server Actions with Zod validation | Writes from our own UI |
-| Favorite toggle | TanStack Query mutation that invalidates the list | Client-side write with a cache to refresh |
+| Favorite toggle | POST to a Route Handler, then update the shared SWR favorites entry and refresh the lists | One client data library for the whole app |
 
 ## Where each course topic is used
 
@@ -66,7 +66,7 @@ Storage starts as a server-side JSON file behind one `lib/db.js` interface, so a
 | File routing, layouts, server/client boundary (Days 36 to 38) | App shell with sidebar, `BOUNDARY.md` |
 | Caching and tags (Day 37) | Cached explore list, invalidated when a system is saved |
 | Route Handlers, Server Actions, Zod (Day 39) | The API and the save flow |
-| SWR and TanStack Query (Day 41) | Debounced explore search, favorite mutation |
+| SWR (Day 41) | Debounced Explore search, pagination, favorites. One client library on purpose; TanStack Query is the documented alternative |
 | Auth and ownership (Day 42) | Only the owner can edit or delete |
 | Performance and env (Day 43) | Lazy loading, secrets in env vars |
 | Metadata and SEO (Day 44) | Per-system titles, share image drawn from the palette, sitemap |
@@ -93,5 +93,5 @@ Batch generator, pattern editor, community posting and comments, Figma and Style
 5. `feature/explore`: server list, SWR search, pagination
 6. `feature/system-detail-seo`: page, metadata, share image, sitemap
 7. `feature/auth`: sign-in and ownership checks
-8. `feature/favorites`: TanStack mutation
+8. `feature/favorites`: favorites through SWR
 9. `feature/polish`: loading and error states, README, `STRATEGY.md`, `BOUNDARY.md`, `DATA.md`

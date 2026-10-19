@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Momentum: Color Systems Studio
 
-## Getting Started
+Build a color system once. Use it everywhere. Pick a base color, get a full shade scale,
+check contrast against WCAG, preview it as a light and dark theme, then export it as CSS
+variables, Tailwind v4, SCSS or JSON tokens. Save systems, share a public link, favorite others.
 
-First, run the development server:
+## Run it
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install swr zod
+npm pkg set type=module
+cp .env.example .env.local        # then set SESSION_SECRET (openssl rand -hex 32)
+npm run dev                       # or: npm run build && npm start
+npm test                          # unit tests (no browser needed)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Routes
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+| Route | What it does | Rendering |
+|---|---|---|
+| `/` | Landing page | Static, with a streamed account slot |
+| `/studio`, `/studio/[id]` | The editor: scale, contrast, preview, export, save | Server shell, client editor |
+| `/systems` | Your systems and favorites (signed in) | Dynamic |
+| `/systems/[id]` | Public page, share image, export | Prebuilt, cached, tag-refreshed |
+| `/explore` | Public systems: search, sort, pages | Cached first page, SWR after |
+| `/signin` | Sign in or create an account | Server Actions |
+| `/settings` | Default export format and shade count, theme | Client preferences |
+| `/api/systems` | Public list (search, sort, page) | Route Handler |
+| `/api/systems/[id]/export` | File download in 4 formats | Route Handler |
+| `/api/favorites` | Read and toggle favorites | Route Handler |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## How it is organised
 
-## Learn More
+- `lib/color.js`: all colour math, pure functions. `lib/systems.js`: every rule about systems and ownership.
+- Server Actions (`app/actions.js`) are thin: validate with Zod, call the service layer, refresh the cache tag.
+- The server recomputes a system's colors from its base color. The browser's colors are never trusted.
+- Only the interactive pieces are client components. Pages that read the session sit behind `<Suspense>`.
 
-To learn more about Next.js, take a look at the following resources:
+## Tested so far
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- 65 unit tests: colour math, contrast, exports, Studio undo/redo, validation, passwords and signed
+  cookies, the data layer (ownership, favorites, search, pagination), and the theme's contrast ratios.
+- `next build` succeeds on Next 16.4.1 with Cache Components and partial prefetching on.
+- In a real browser, these passed: theme toggle and persistence, skip link, Explore (server-rendered,
+  debounced search, sort, pagination, empty state), Studio (hex, shades, undo/redo, invalid input,
+  contrast, previews, export dialog), sign-up validation, draft kept across sign-in, saving a system,
+  and the Explore cache refreshing right after a save.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## NOT tested yet (please check these first)
 
-## Deploy on Vercel
+The browser run stopped at **favoriting a system, then reloading the page**. Everything after it
+has not been run: favorite persistence, My systems and the Favorites tab, editing, private
+systems returning 404, another user being refused, delete, the API responses, the share image,
+sitemap and robots, Settings, sign-out, and mobile layout.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Things to know
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Data lives in `data/db.json`, created from `data/seed.json` on first run. It does not persist on serverless hosting.
+- Next 16 keeps previously visited pages mounted but hidden, so the same `id` can exist twice in the DOM. Hidden copies are ignored by assistive tech.
+- Without `SESSION_SECRET` a development default is used. Set a real one before any real use.

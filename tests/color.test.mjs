@@ -126,3 +126,11 @@ test("REGRESSION: export with a spaced name produces valid CSS variable names", 
   assert.equal(json.color["fresh-start-500"].$value, "#6485f5");
   assert.throws(() => exportSystem(system, "xml"), /Unknown export format/);
 });
+
+test("randomColor always returns a valid hex and is deterministic with a seeded source", async () => {
+  const { randomColor } = await import("../lib/color.js");
+  for (let i = 0; i < 200; i++) assert.ok(isValidHex(randomColor()));
+  const fixed = () => 0.5;
+  assert.equal(randomColor(fixed), randomColor(fixed));
+  assert.notEqual(randomColor(() => 0.1), randomColor(() => 0.6));
+});

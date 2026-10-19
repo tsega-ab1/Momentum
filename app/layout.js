@@ -1,7 +1,11 @@
+import { Suspense } from "react";
 import "./globals.css";
 import Sidebar from "@/components/Sidebar";
+import AccountLink from "@/components/AccountLink";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Momentum: color systems studio",
     template: "%s · Momentum",
@@ -25,7 +29,13 @@ export default function RootLayout({ children }) {
           Skip to content
         </a>
         <div className="shell">
-          <Sidebar />
+          <Sidebar
+            account={
+              <Suspense fallback={<span className="nav-link muted">Account…</span>}>
+                <AccountLink />
+              </Suspense>
+            }
+          />
           <main id="main" className="main">
             {children}
           </main>

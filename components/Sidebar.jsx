@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ThemeToggle from "./ThemeToggle";
@@ -15,10 +16,37 @@ function isActive(pathname, href) {
   return pathname === href || pathname.startsWith(href + "/");
 }
 
-// Client component only because it needs usePathname to mark the current page.
-export default function Sidebar() {
-  const pathname = usePathname();
+// Pure list of links: `pathname` decides which one is marked as the current page.
+function NavList({ pathname }) {
+  return (
+    <nav aria-label="Main">
+      {groups.map((group) => (
+        <div className="nav-group" key={group.label}>
+          <span className="nav-label">{group.label}</span>
+          {group.links.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="nav-link"
+              aria-current={isActive(pathname, link.href) ? "page" : undefined}
+            >
+              {link.text}
+            </Link>
+          ))}
+        </div>
+      ))}
+    </nav>
+  );
+}
 
+// Only this piece reads the URL. On routes with a dynamic id the URL is not known at build time,
+// so it sits behind <Suspense>; the links render at once and the highlight arrives right after.
+function ActiveNav() {
+  return <NavList pathname={usePathname()} />;
+}
+
+// `account` is a server-rendered slot (sign in / sign out), passed in as a prop.
+export default function Sidebar({ account }) {
   return (
     <aside className="sidebar">
       <Link href="/" className="brand">
@@ -28,32 +56,12 @@ export default function Sidebar() {
         Momentum
       </Link>
 
-      <nav aria-label="Main">
-        {groups.map((group) => (
-          <div className="nav-group" key={group.label}>
-            <span className="nav-label">{group.label}</span>
-            {group.links.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="nav-link"
-                aria-current={isActive(pathname, link.href) ? "page" : undefined}
-              >
-                {link.text}
-              </Link>
-            ))}
-          </div>
-        ))}
-      </nav>
+      <Suspense fallback={<NavList pathname="" />}>
+        <ActiveNav />
+      </Suspense>
 
       <div className="sidebar-footer">
-        <Link
-          href="/signin"
-          className="nav-link"
-          aria-current={isActive(pathname, "/signin") ? "page" : undefined}
-        >
-          Sign in
-        </Link>
+        {account}
         <ThemeToggle />
       </div>
     </aside>
