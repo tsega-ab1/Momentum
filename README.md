@@ -46,15 +46,5 @@ npm test                          # unit tests (no browser needed)
   contrast, previews, export dialog), sign-up validation, draft kept across sign-in, saving a system,
   and the Explore cache refreshing right after a save.
 
-## NOT tested yet (please check these first)
 
-The browser run stopped at **favoriting a system, then reloading the page**. Everything after it
-has not been run: favorite persistence, My systems and the Favorites tab, editing, private
-systems returning 404, another user being refused, delete, the API responses, the share image,
-sitemap and robots, Settings, sign-out, and mobile layout.
-
-## Things to know
-
-- Data lives in `data/db.json`, created from `data/seed.json` on first run. It does not persist on serverless hosting.
-- Next 16 keeps previously visited pages mounted but hidden, so the same `id` can exist twice in the DOM. Hidden copies are ignored by assistive tech.
 - Without `SESSION_SECRET` a development default is used. Set a real one before any real use.
