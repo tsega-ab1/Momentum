@@ -2,7 +2,6 @@
 
 **Build a color system once. Use it everywhere.**
 
-Capstone brief, version 3. This replaces the earlier job-tracker and AI-routine-coach briefs.
 
 ## Problem
 
